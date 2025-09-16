@@ -7,6 +7,8 @@ import com.jhenriquedsm.btgpactual.orders.dtos.OrderResponse;
 import com.jhenriquedsm.btgpactual.orders.dtos.PaginationResponse;
 import com.jhenriquedsm.btgpactual.orders.service.OrderService;
 
+import java.util.Map;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +30,10 @@ public class OrderController {
     @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize) {
         
         var pageResponse = orderService.findAllByCustomerId(customerId, PageRequest.of(page, pageSize));
+        var totalOnOrders = orderService.findTotalOnOrdersByCustomerId(customerId);
 
         return ResponseEntity.ok(new ApiResponse<>(
+            Map.of("totalOnOrders", totalOnOrders),
             pageResponse.getContent(),
             PaginationResponse.toPage(pageResponse)
         ));
