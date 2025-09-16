@@ -1,4 +1,4 @@
-package com.jhenriquedsm.btgpactual.dtos;
+package com.jhenriquedsm.btgpactual.orders.dtos;
 
 import java.util.List;
 
