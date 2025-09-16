@@ -2,9 +2,12 @@ package com.jhenriquedsm.btgpactual.orders.service;
 
 import java.math.BigDecimal;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.jhenriquedsm.btgpactual.orders.dtos.OrderCreatedEvent;
+import com.jhenriquedsm.btgpactual.orders.dtos.OrderResponse;
 import com.jhenriquedsm.btgpactual.orders.entity.OrderEntity;
 import com.jhenriquedsm.btgpactual.orders.entity.OrderItem;
 import com.jhenriquedsm.btgpactual.orders.respository.OrderRepository;
@@ -33,5 +36,11 @@ public class OrderService {
         .orElse(BigDecimal.ZERO));
 
         orderRepository.save(entity);
-    }   
+    }
+    
+    public Page<OrderResponse> findAllByCustomerId(Long customerId, PageRequest pageRequest) {
+        var orders = orderRepository.findAllByCustomerId(customerId, pageRequest);
+
+        return orders.map(OrderResponse::toEntity);
+    }
 }
